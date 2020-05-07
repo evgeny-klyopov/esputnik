@@ -414,7 +414,7 @@ class ESputnik
             $contact->setLastName($contactFromResponse['lastName']);
         }
 
-        if (isset($contactFromResponse['address'])) {
+        if (isset($contactFromResponse['address']) && empty($contactFromResponse['address']) !== true) {
             $address = new Address([
                 'region' => $contactFromResponse['address']['region'],
                 'town' => $contactFromResponse['address']['town'],
