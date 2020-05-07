@@ -9,6 +9,7 @@ namespace Brownie\ESputnik;
 
 use Brownie\ESputnik\HTTPClient\HTTPClient;
 use Brownie\ESputnik\Model\Address;
+use Brownie\ESputnik\Model\MobilePushChannel;
 use Brownie\ESputnik\Model\OrdersInfo;
 use Brownie\ESputnik\Model\Version;
 use Brownie\ESputnik\Model\Subscribe;
@@ -30,6 +31,7 @@ use Brownie\ESputnik\Model\ContactDedupe;
 use Brownie\ESputnik\Model\ContactFieldsUpdate;
 use Brownie\ESputnik\Model\ContactGroupsUpdate;
 use Brownie\ESputnik\Model\OrderList;
+use Brownie\ESputnik\Model\WebPushChannel;
 
 /**
  * ESputnik API.
@@ -432,6 +434,16 @@ class ESputnik
                 }
                 if ('sms' == $channel['type']) {
                     $channelList->add(new SmsChannel([
+                        'value' => $channel['value']
+                    ]));
+                }
+                if ('mobilepush' == $channel['type']) {
+                    $channelList->add(new MobilePushChannel([
+                        'value' => $channel['value']
+                    ]));
+                }
+                if ('webpush' == $channel['type']) {
+                    $channelList->add(new WebPushChannel([
                         'value' => $channel['value']
                     ]));
                 }
