@@ -52,4 +52,38 @@ abstract class EntityList
     {
         return $this->getList()->count();
     }
+
+    /**
+     * @param ArrayList $entity
+     * @param array $equalityFields
+     *
+     * @return ArrayList|null
+     */
+    public function find(ArrayList $entity, array $equalityFields)
+    {
+        $equalityFields = array_map(function ($value) {
+            return 'get' . ucfirst($value);
+        }, $equalityFields);
+
+
+        $object = null;
+        foreach ($this->getList() as $row) {
+            $equality = false;
+            foreach ($equalityFields as $method) {
+                if ($entity->$method() === $row->$method()) {
+                    $equality = true;
+                } else {
+                    $equality = false;
+                    break;
+                }
+            }
+
+            if (true === $equality) {
+                $object = $row;
+                break;
+            }
+        }
+
+        return $object;
+    }
 }
