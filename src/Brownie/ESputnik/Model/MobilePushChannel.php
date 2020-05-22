@@ -10,5 +10,10 @@ use Brownie\ESputnik\Model\Base\Channel;
 
 class MobilePushChannel extends Channel
 {
+    protected $fields = [
+        'value' => null,
+        'device' => null,
+    ];
+
     protected $type = 'mobilepush';
 }
