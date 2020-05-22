@@ -16,4 +16,12 @@ class MobilePushChannel extends Channel
     ];
 
     protected $type = 'mobilepush';
+
+    public function toArray()
+    {
+        if ($this->getDevice()) {
+            return ['device' => $this->getDevice()] + parent::toArray();
+        }
+        return parent::toArray();
+    }
 }
