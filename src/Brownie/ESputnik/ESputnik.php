@@ -10,6 +10,7 @@ namespace Brownie\ESputnik;
 use Brownie\ESputnik\HTTPClient\HTTPClient;
 use Brownie\ESputnik\Model\Address;
 use Brownie\ESputnik\Model\MobilePushChannel;
+use Brownie\ESputnik\Model\Device;
 use Brownie\ESputnik\Model\OrdersInfo;
 use Brownie\ESputnik\Model\Version;
 use Brownie\ESputnik\Model\Subscribe;
@@ -438,9 +439,22 @@ class ESputnik
                     ]));
                 }
                 if ('mobilepush' == $channel['type']) {
-                    $channelList->add(new MobilePushChannel([
+                    $fields = [
                         'value' => $channel['value']
-                    ]));
+                    ];
+
+                    $deviceField = [];
+                    foreach (['appId', 'deviceModel', 'os', 'locale', 'clientVersion' , 'appVersion', 'active'] as $deviceFieldName) {
+                        if (isset($channel['device'][$deviceFieldName])) {
+                            $deviceField[$deviceFieldName] = $channel['device'][$deviceFieldName];
+                        }
+                    }
+
+                    if (!empty($channel['device'])) {
+                        $fields['device'] = new Device($deviceField);
+                    }
+
+                    $channelList->add(new MobilePushChannel($fields));
                 }
                 if ('webpush' == $channel['type']) {
                     $channelList->add(new WebPushChannel([

@@ -17,11 +17,19 @@ class MobilePushChannel extends Channel
 
     protected $type = 'mobilepush';
 
+    /**
+     * Returns the field list as an array.
+     *
+     * @return array
+     */
     public function toArray()
     {
+        $result = parent::toArray();
+
         if ($this->getDevice()) {
-            return ['device' => $this->getDevice()] + parent::toArray();
+            $result['device'] = $this->getDevice()->toArray();
         }
-        return parent::toArray();
+
+        return $result;
     }
 }
